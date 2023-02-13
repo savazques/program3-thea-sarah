@@ -32,5 +32,13 @@
     "**/.*/**",
     "**/.vscode",
     "**/.vscode/**"
-  ]
+  ],
+  "files.associations": {
+    "vector": "cpp",
+    "map": "cpp",
+    "set": "cpp",
+    "string": "cpp",
+    "string_view": "cpp",
+    "unordered_map": "cpp"
+  }
 }
