@@ -18,12 +18,20 @@ void PriorityQueue::insert(KeyValuePair kv) {
     nodes_.push_back(kv); 
     //get the size of the vector
     size_t s = size(); 
+    std::cout<< s << std::endl ; 
     //heapify the last element to its correct place in heap
-    heapifyUp(s);
+     heapifyUp(s); 
+    
+    
 }
 
 KeyValuePair PriorityQueue::min() {
     // returning the top node, which is the min as the heap is a min heap
+    Key l ;
+    KeyValuePair lv = nodes_[1];
+    l = lv.first; 
+    //std::cout<<l<<std::endl; 
+
 	return nodes_[1]; 
 }
 
@@ -44,17 +52,21 @@ KeyValuePair PriorityQueue::removeMin() {
 
 bool PriorityQueue::isEmpty() const {
     //if size of the vector is 0 that means it is empty and return true
-	if (nodes_.size() == 0)  { 
+	if (nodes_.empty())  { 
+        std::cout<<"yes is empty"<<std::endl;
         return true; 
     }
     //else we return false
     else {
+        std::cout<<"not empty"<<std::endl;
         return false; 
     };
 }
 
 size_t PriorityQueue::size() const {
     //return the size of the vector 
+    size_t k = nodes_.size(); 
+    std::cout<< k << std::endl; 
     return nodes_.size();
 }
 
