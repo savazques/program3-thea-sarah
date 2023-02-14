@@ -14,12 +14,17 @@ void PriorityQueue::insert(Key k) {
 }
 
 void PriorityQueue::insert(KeyValuePair kv) { //635, (0,0)
-    //insert the keyvalue pair into vector
-    //rn nodes Key contains 0,0,0,0,0... when pushback it will be 0,0,0,0,635
-    size_t s = size(); 
-    nodes_.push_back(kv); 
-    //heapify the last element to its correct place in heap
-    heapifyUp(s); 
+    //store the newest value into the last position of vector
+    nodes_[max_size_] = kv; 
+    
+    //increase the node size count
+    size_++; 
+    //swap the next node count with the new number
+    std::swap(nodes_[size_], nodes_[max_size_]); 
+     // FOR TESTING KeyValuePair checkKey = nodes_[size_]; 
+
+    //heapify the next node count 
+    heapifyUp(size_); 
 }
 
 KeyValuePair PriorityQueue::min() {
@@ -28,19 +33,15 @@ KeyValuePair PriorityQueue::min() {
 }
 
 KeyValuePair PriorityQueue::removeMin() {
-    // storing the min 
-    //get the size of the vector
-
-    size_t s = size(); 
-    //swap the top of the heap with the last vector
-    std::swap(nodes_[1], nodes_[s]);
-    //remove the last node
-    
-    //heapify the new number to its correct position
+    //swapping the first vector with the value
+    std::swap(nodes_[1], nodes_[size_]);
+    //decrement the size of the vector
+    size_ --; 
+    //get Keyvalue of new minimum 
     KeyValuePair newMin = nodes_[1]; 
-
+    //heapify down the new minimum number
     heapifyDown(1); 
-
+    //return the new minimum
     return newMin; 
 }
 
@@ -86,19 +87,17 @@ nlohmann::json PriorityQueue::JSON() const {
 }
 
 void PriorityQueue::heapifyUp(size_t i) {
-    //dont heapify if you are at the root
+    //dont heapify if you are at the root 
     if (i != 1){ 
         //variable that holds child info
         KeyValuePair child = nodes_[i];
+
         if ((i % 2) == 0){
             KeyValuePair parentVector = nodes_[i/2]; 
         //check if the child is smaller than the parent 
             if (child.first < parentVector.first){
                 //the child becomes the parent
                 std::swap(nodes_[i/2], nodes_[i]);
-                // nodes_[i] = parentVector; 
-                // //the parent becomes the child
-                // nodes_[i/2] = child; 
             };
         }
         else { 
@@ -106,10 +105,7 @@ void PriorityQueue::heapifyUp(size_t i) {
         //check if the child is smaller than the parent 
             if (child.first < parentVector.first){
                 //the child becomes the parent
-                std::swap(nodes_[(i - 1)/2], nodes_[i]);
-                // nodes_[i] = parentVector; 
-                // //the parent becomes the child
-                // nodes_[i/2] = child; 
+                std::swap(nodes_[(i - 1)/2], nodes_[i]); 
             };
         };
         //varibale that hoild parent info
@@ -118,9 +114,6 @@ void PriorityQueue::heapifyUp(size_t i) {
         if (child.first < parentVector.first){
             //the child becomes the parent
             std::swap(nodes_[i/2], nodes_[i]);
-            // nodes_[i] = parentVector; 
-            // //the parent becomes the child
-            // nodes_[i/2] = child; 
             
         };
     };
