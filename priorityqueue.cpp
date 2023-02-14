@@ -13,61 +13,53 @@ void PriorityQueue::insert(Key k) {
 	insert(std::make_pair(k, std::make_pair(0, 0)));
 }
 
-void PriorityQueue::insert(KeyValuePair kv) {
+void PriorityQueue::insert(KeyValuePair kv) { //635, (0,0)
     //insert the keyvalue pair into vector
-    nodes_.push_back(kv); 
-    //get the size of the vector
+    //rn nodes Key contains 0,0,0,0,0... when pushback it will be 0,0,0,0,635
     size_t s = size(); 
-    std::cout<< s << std::endl ; 
+    nodes_.push_back(kv); 
     //heapify the last element to its correct place in heap
-     heapifyUp(s); 
-    
-    
+    heapifyUp(s); 
 }
 
 KeyValuePair PriorityQueue::min() {
     // returning the top node, which is the min as the heap is a min heap
-    Key l ;
-    KeyValuePair lv = nodes_[1];
-    l = lv.first; 
-    //std::cout<<l<<std::endl; 
-
 	return nodes_[1]; 
 }
 
 KeyValuePair PriorityQueue::removeMin() {
     // storing the min 
-    KeyValuePair tempMin = nodes_[1]; 
     //get the size of the vector
+
     size_t s = size(); 
     //swap the top of the heap with the last vector
-	nodes_[1] = nodes_[s]; 
+    std::swap(nodes_[1], nodes_[s]);
     //remove the last node
-    nodes_.pop_back(); 
+    
     //heapify the new number to its correct position
+    KeyValuePair newMin = nodes_[1]; 
+
     heapifyDown(1); 
 
-    return tempMin; 
+    return newMin; 
 }
 
 bool PriorityQueue::isEmpty() const {
     //if size of the vector is 0 that means it is empty and return true
-	if (nodes_.empty())  { 
-        std::cout<<"yes is empty"<<std::endl;
+    KeyValuePair checkifempty = nodes_[1];
+    std::cout<<checkifempty.first<<std::endl; 
+	if (checkifempty.first == 0)  { 
         return true; 
     }
     //else we return false
     else {
-        std::cout<<"not empty"<<std::endl;
         return false; 
     };
 }
 
 size_t PriorityQueue::size() const {
-    //return the size of the vector 
-    size_t k = nodes_.size(); 
-    std::cout<< k << std::endl; 
-    return nodes_.size();
+    //return the size of the vector plus one 
+    return size_;
 }
 
 nlohmann::json PriorityQueue::JSON() const {
@@ -98,14 +90,37 @@ void PriorityQueue::heapifyUp(size_t i) {
     if (i != 1){ 
         //variable that holds child info
         KeyValuePair child = nodes_[i];
+        if ((i % 2) == 0){
+            KeyValuePair parentVector = nodes_[i/2]; 
+        //check if the child is smaller than the parent 
+            if (child.first < parentVector.first){
+                //the child becomes the parent
+                std::swap(nodes_[i/2], nodes_[i]);
+                // nodes_[i] = parentVector; 
+                // //the parent becomes the child
+                // nodes_[i/2] = child; 
+            };
+        }
+        else { 
+            KeyValuePair parentVector = nodes_[(i - 1)/2]; 
+        //check if the child is smaller than the parent 
+            if (child.first < parentVector.first){
+                //the child becomes the parent
+                std::swap(nodes_[(i - 1)/2], nodes_[i]);
+                // nodes_[i] = parentVector; 
+                // //the parent becomes the child
+                // nodes_[i/2] = child; 
+            };
+        };
         //varibale that hoild parent info
         KeyValuePair parentVector = nodes_[i/2]; 
         //check if the child is smaller than the parent 
         if (child.first < parentVector.first){
             //the child becomes the parent
-            nodes_[i] = parentVector; 
-            //the parent becomes the child
-            nodes_[i/2] = child; 
+            std::swap(nodes_[i/2], nodes_[i]);
+            // nodes_[i] = parentVector; 
+            // //the parent becomes the child
+            // nodes_[i/2] = child; 
             
         };
     };
@@ -125,10 +140,7 @@ void PriorityQueue::heapifyDown(size_t i) {
         //if parent is bigger than left child we switch 
         if(leftchild.first < Parent.first)
         {
-        //the parent becomes the left child 
-            nodes_[i] = leftchild; 
-        //the left child becomes the parent
-            nodes_[i*2] = Parent;
+            std::swap(nodes_[i], nodes_[i*2]); 
         }
         
             
@@ -147,16 +159,20 @@ void PriorityQueue::heapifyDown(size_t i) {
             // in the case that the first child is smaller than the second
             if (child1.first < child2.first){
                 // child node becomes parent node 
-                nodes_[i *2] = parent; 
-                // parent node becomes child node 
-                nodes_[i] = child1; 
+                // nodes_[i *2] = parent; 
+                // // parent node becomes child node 
+                // nodes_[i] = child1; 
+
+                std::swap(nodes_[i*2], nodes_[i]); 
             };
             // in the case that the second child is smaller than the first
             if (child2.first < child1.first){
                 // child node becomes parent mode 
-                nodes_[(i * 2) +1] = parent; 
-                // parent node becomes the child node 
-                nodes_[i] = child2; 
+                // nodes_[(i * 2) +1] = parent; 
+                // // parent node becomes the child node 
+                // nodes_[i] = child2; 
+
+                std::swap(nodes_[i*2], nodes_[i]); 
             };
             // exit if it was both children that were smaller than the parent 
             exit(0); 
@@ -166,16 +182,19 @@ void PriorityQueue::heapifyDown(size_t i) {
             // in the case that it is the first child that is smaller 
             if (child1.first < parent.first){
                 // child node becomes parent node 
-                nodes_[i *2] = parent; 
-                // parent node becomes child node 
-                nodes_[i] = child1; 
+                // nodes_[i *2] = parent; 
+                // // parent node becomes child node 
+                // nodes_[i] = child1; 
+                std::swap(nodes_[i*2], nodes_[i]); 
             };
             // in the case that it is the second child that is smaller than the parent 
             if (child2.first < parent.first){
                 // child node becomes parent mode 
-                nodes_[(i * 2) +1] = parent; 
-                // parent node becomes the child node 
-                nodes_[i] = child2; 
+                // nodes_[(i * 2) +1] = parent; 
+                // // parent node becomes the child node 
+                // nodes_[i] = child2; 
+
+                std::swap(nodes_[i*2], nodes_[i]); 
             };
         };
     };
@@ -185,8 +204,8 @@ void PriorityQueue::heapifyDown(size_t i) {
         heapifyDown( i * 2); 
         // specifically child two (right) 
         heapifyDown((i * 2) + 1); 
-    }; 
-};
+    } 
+}
 
 void PriorityQueue::removeNode(size_t i) {
    // variable that holds the size of the node
