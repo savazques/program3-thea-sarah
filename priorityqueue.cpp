@@ -16,13 +16,11 @@ void PriorityQueue::insert(Key k) {
 void PriorityQueue::insert(KeyValuePair kv) { //635, (0,0)
     //store the newest value into the last position of vector
     nodes_[max_size_] = kv; 
-    
     //increase the node size count
     size_++; 
     //swap the next node count with the new number
     std::swap(nodes_[size_], nodes_[max_size_]); 
      // FOR TESTING KeyValuePair checkKey = nodes_[size_]; 
-
     //heapify the next node count 
     heapifyUp(size_); 
 }
@@ -55,7 +53,7 @@ bool PriorityQueue::isEmpty() const {
     //else we return false
     else {
         return false; 
-    };
+    }
 }
 
 size_t PriorityQueue::size() const {
@@ -115,12 +113,12 @@ void PriorityQueue::heapifyUp(size_t i) {
             //the child becomes the parent
             std::swap(nodes_[i/2], nodes_[i]);
             
-        };
-    };
+        }
+    }
     // using recursion to continue to check the parent if such a par
     if (i != 1){
         heapifyUp(i/2); 
-    }; 
+    } 
 }
 
 void PriorityQueue::heapifyDown(size_t i) {
@@ -157,7 +155,7 @@ void PriorityQueue::heapifyDown(size_t i) {
                 // nodes_[i] = child1; 
 
                 std::swap(nodes_[i*2], nodes_[i]); 
-            };
+            }
             // in the case that the second child is smaller than the first
             if (child2.first < child1.first){
                 // child node becomes parent mode 
@@ -166,10 +164,10 @@ void PriorityQueue::heapifyDown(size_t i) {
                 // nodes_[i] = child2; 
 
                 std::swap(nodes_[i*2], nodes_[i]); 
-            };
+            }
             // exit if it was both children that were smaller than the parent 
             exit(0); 
-        };
+        }
         // in the case that only one child is smaller than the parent (ensured by the exit statment earlier)
         if ((child1.first < parent.first) || (child2.first < parent.first)){
             // in the case that it is the first child that is smaller 
@@ -179,7 +177,7 @@ void PriorityQueue::heapifyDown(size_t i) {
                 // // parent node becomes child node 
                 // nodes_[i] = child1; 
                 std::swap(nodes_[i*2], nodes_[i]); 
-            };
+            }
             // in the case that it is the second child that is smaller than the parent 
             if (child2.first < parent.first){
                 // child node becomes parent mode 
@@ -188,9 +186,9 @@ void PriorityQueue::heapifyDown(size_t i) {
                 // nodes_[i] = child2; 
 
                 std::swap(nodes_[i*2], nodes_[i]); 
-            };
-        };
-    };
+            }
+        }
+    }
     // using recursion to continue to check the children of node i if such chiden exist
     if (nodes_.size() > ((i * 2) + 1)){ 
         // specifically child one (left)
