@@ -25,6 +25,8 @@ KeyValuePair PriorityQueue::min() {
 }
 
 KeyValuePair PriorityQueue::removeMin() {
+
+    KeyValuePair theMin = nodes_[1]; 
     //swapping the first vector with the value
     std::swap(nodes_[1], nodes_[size_]);
     //decrement the size of the vector
@@ -34,7 +36,7 @@ KeyValuePair PriorityQueue::removeMin() {
     //heapify down the new minimum number
     heapifyDown(1); 
     //return the new minimum
-    return newMin; 
+    return theMin; 
 }
 
 bool PriorityQueue::isEmpty() const {
@@ -143,4 +145,10 @@ Key PriorityQueue::getKey(size_t i) {
     KeyValuePair tempVector = nodes_[i]; 
     // accessing the key and returning it 
     return tempVector.first; 
+}
+
+Value PriorityQueue::getValue(size_t i) 
+{
+    KeyValuePair tempKVP = nodes_[i];
+    return tempKVP.second; 
 }

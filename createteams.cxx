@@ -3,55 +3,62 @@
 #include <iostream>
 #include "json.hpp"
 
-
-
-
 int main(int argc, char** argv) {
-    std::string jsonFile = argv[1];
-    std::ifstream file (jsonFile); 
-    nlohmann::json teamData = nlohmann::json::parse(file); 
-    std::map<int,int> TEAMS; 
-    double currentWinPercentage; 
-    double difference;
-    PriorityQueue teamPlayerQueue(20);
-  
-    double lowest = 51.0;
+    PriorityQueue playerQueue(780);
+    std::string jsonfile = argv[1]; 
+    std::ifstream file (jsonfile); 
+    nlohmann::json Player_Data = nlohmann::json::parse(file); 
+    nlohmann::json OutputJSON;
+
+    typedef double                  Key;
+    typedef std::pair<int, int>     Value;
+    typedef std::pair<Key, Value>   KeyValuePair; 
     
-    //while the sizeoftheque is still less than the teams
-    while(teamPlayerQueue.size() < 20)
+
+    for(nlohmann::json::iterator it = Player_Data.begin(); it != Player_Data.end(); it++)
     {
-        for(nlohmann::json::iterator it = teamData.begin(); it != teamData.end(); it++)
+        if(it.key() != "metadata")
         {
-            if(it.key() != "metadata")
+            for(int i = 0; i < 780; i++)
             {
-                for (int i  = 0; i < 40; i ++)
-                {
-                    nlohmann::json round = teamData[it.key()][i] ;
-                    int player1 = round["playerOne"]; 
-                    int player2 = round["playerTwo"]; 
-                    double difference = abs(round["winPercentage"] - 50); 
-
-                    if(lowest > difference)
-                    {
-                        lowest = difference;
-                        Value players(player1,player2);
-                        Key heapValue = lowest; 
-                        KeyValuePair kvp (heapValue,players);
-                        teamPlayerQueue.insert(kvp);
-                        
-                    }
-
-                    
-                }
-                
+                double tempWin = Player_Data[it.key()][i]["winPercentage"]; 
+                double addWin = abs(50.000 - tempWin); 
+                Key tempKey = addWin; 
+                Value tempValue(Player_Data[it.key()][i]["playerOne"], Player_Data[it.key()][i]["playerTwo"]); 
+                KeyValuePair tempKVP(tempKey, tempValue); 
+                playerQueue.insert(tempKVP); 
             }
-            
-                
         }
-        
+    }
+
+    std::vector<std::pair<int, int>> finalVector; 
+
+    while(playerQueue.size() > 0)
+    {
+        KeyValuePair minKVP = playerQueue.removeMin();
+        //inser to to json
+        int p1 = (minKVP.second).first; 
+        int p2 = (minKVP.second).second; 
+        std::pair<int, int> p1p2 (p1,p2);
+        finalVector.push_back(p1p2);
+
+        // now to check if its in the other nodes 
+        // come back to
+        for( size_t i = playerQueue.size(); i > 0; i--){
+            Value ithValue = playerQueue.getValue(i); 
+            if (ithValue.first == p1 || ithValue.first == p2 || ithValue.second == p1 || ithValue.second == p2) 
+            {
+                playerQueue.removeNode(i);
+            }
+        }
     }
 
 
+    OutputJSON["teamStats"] = finalVector;
+    std::cout << OutputJSON.dump(2) << std::endl; 
 
 
 }
+ 
+
+

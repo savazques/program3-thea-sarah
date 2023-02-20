@@ -16,16 +16,17 @@ class PriorityQueue {
     void insert(KeyValuePair kv);
     KeyValuePair min();
     KeyValuePair removeMin();
+    Value getValue(size_t i); 
     bool isEmpty() const;
     size_t size() const;
     nlohmann::json JSON() const;
-
+    void removeNode(size_t i);
+    
   private:
     void heapifyUp(size_t i);
     void heapifyDown(size_t i);
-    void removeNode(size_t i);
+    
     Key getKey(size_t i);
-
     std::vector<KeyValuePair>   nodes_;
     size_t                      max_size_;
     size_t                      size_;
