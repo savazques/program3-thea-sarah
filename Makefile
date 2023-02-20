@@ -21,8 +21,8 @@ createheapoperationdata.exe: createheapoperationdata.cxx priorityqueue.o $(JSON)
 createteamdata.exe: createteamdata.cxx $(JSON)
 	$(CC) $(FLAGS) createteamdata.cxx -o createteamdata.exe
 
-createteams.exe: createteams.cxx priorityqueue.o teamdata.o $(JSON)
-	$(CC) $(FLAGS) createteams.cxx priorityqueue.o teamdata.o -o createteams.exe
+createteams.exe: createteams.cxx priorityqueue.o $(JSON)
+	$(CC) $(FLAGS) createteams.cxx priorityqueue.o -o createteams.exe
 
 clean:
 	rm -f *.o
