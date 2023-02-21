@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
     }
 
     //create json that outputs 'teamstats' and an array of all pairs in the vectors
-    OutputJSON["teamStats"] = finalVector;
+    OutputJSON["teams"] = finalVector;
     //print the outputjson to terminal
     std::cout << OutputJSON.dump(2) << std::endl; 
 
