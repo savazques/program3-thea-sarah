@@ -9,8 +9,8 @@ all: buildheap.exe createteams.exe createteamdata.exe createheapoperationdata.ex
 priorityqueue.o: priorityqueue.cpp priorityqueue.h
 	$(CC) $(FLAGS) -c priorityqueue.cpp
 
-teamdata.o: teamdata.cpp teamdata.h $(JSON)
-	$(CC) $(FLAGS) -c teamdata.cpp
+#teamdata.o: teamdata.cpp teamdata.h $(JSON)
+#	$(CC) $(FLAGS) -c teamdata.cpp
 
 buildheap.exe: buildheap.cxx priorityqueue.o $(JSON)
 	$(CC) $(FLAGS) buildheap.cxx priorityqueue.o -o buildheap.exe
