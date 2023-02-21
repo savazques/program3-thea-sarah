@@ -38,6 +38,7 @@ KeyValuePair PriorityQueue::removeMin() {
     //heapify down the new minimum number
     heapifyDown(1); 
     //return the new minimum
+   
     return theMin; 
 }
 
