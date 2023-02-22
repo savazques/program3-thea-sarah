@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
             //get value of win percentage of that match
                 double tempWin = Player_Data[it.key()][i]["winPercentage"]; 
             //get the absolute value of 50 - tempwin
-                double addWin = abs(50.000 - tempWin); 
+                double addWin = fabs(50.000 - tempWin); 
             //the difference will be our Key
                 Key tempKey = addWin; 
             //Values will be the the two players of that match
@@ -84,4 +84,4 @@ int main(int argc, char** argv) {
 }
  
 
-
+//17.091//13.49//27.5//25.121
