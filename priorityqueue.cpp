@@ -127,6 +127,8 @@ void PriorityQueue::heapifyUp(size_t i) {
 //move values down the queue
 void PriorityQueue::heapifyDown(size_t i) {
 
+    std::cout << "XXXXX heapify down has been called XXXXXX" << std::endl; 
+
 //if left child is at the end of the queue there is no right child at i node
     if (size_ == (i * 2)){ 
     //get left child KVP
@@ -137,6 +139,7 @@ void PriorityQueue::heapifyDown(size_t i) {
         if(leftchild.first < Parent.first)
         {
     //if it is than we swap the two nodes
+            std::cout << "exactly equial - node with p1 = " << nodes_[i].second.first << " and p2 = " << nodes_[i].second.second << " is being swapped with node with p1 = " << nodes_[i * 2].second.first << " and p2 = " << nodes_[i * 2].second.second << std::endl; 
             std::swap(nodes_[i], nodes_[i * 2]); 
         //end of if
         }   
@@ -155,6 +158,9 @@ void PriorityQueue::heapifyDown(size_t i) {
     //check if left child is less than right child
             if (child1.first < child2.first){
     //if it is swap the left child with parent
+                // tests start here 
+                std::cout << "the parent node we are on rn is player 1 = " << nodes_[i].second.first << " and player 2 = " << nodes_[i].second.second << " and the child node we swapped it with is player 1 = " << nodes_[i * 2].second.first << " and player 2 = " << nodes_[i * 2].second.second << std::endl;
+                // tests end here 
                 std::swap(nodes_[i * 2], nodes_[i]); 
     //heapify down the new left child
                 heapifyDown(i * 2); 
@@ -163,6 +169,9 @@ void PriorityQueue::heapifyDown(size_t i) {
     //else if the right child is smaller than the left child
             if (child2.first < child1.first){
     //swap the right child and parent
+                // tests start here 
+                std::cout << "the parent node we are on rn is player 1 = " << nodes_[i].second.first << " and player 2 = " << nodes_[i].second.second << " and the child node we swapped it with is player 1 = " << nodes_[(i * 2) + 1].second.first << " and player 2 = " << nodes_[(i * 2) + 1].second.second << std::endl;
+                // tests end here 
                 std::swap(nodes_[(i * 2) + 1], nodes_[i]); 
     //heapify down the new right child 
                 heapifyDown((i * 2) + 1);
@@ -175,6 +184,7 @@ void PriorityQueue::heapifyDown(size_t i) {
     //check if left child is less than parent
             if (child1.first < parent.first){
     //if its than swap left child with parent
+                std::cout << "the parent node we are on rn is player 1 = " << nodes_[i].second.first << " and player 2 = " << nodes_[i].second.second << " and the child node we swapped it with is player 1 = " << nodes_[i * 2].second.first << " and player 2 = " << nodes_[i * 2].second.second << std::endl;
                 std::swap(nodes_[i * 2], nodes_[i]); 
     //heapify down the new child
                 heapifyDown(i * 2);
@@ -183,6 +193,7 @@ void PriorityQueue::heapifyDown(size_t i) {
     //if right child is less than parent 
             if (child2.first < parent.first){
     //if it is than swap right child with parent
+                std::cout << "the parent node we are on rn is player 1 = " << nodes_[i].second.first << " and player 2 = " << nodes_[i].second.second << " and the child node we swapped it with is player 1 = " << nodes_[(i * 2) + 1].second.first << " and player 2 = " << nodes_[(i * 2) + 1].second.second << std::endl;
                 std::swap(nodes_[(i * 2) + 1], nodes_[i]); 
     //heapify down the new child
                 heapifyDown((i * 2) + 1); 
@@ -199,6 +210,7 @@ void PriorityQueue::removeNode(size_t i) {
    // variable that holds the current size of the queue 
     size_t s = size();
     //swap the node at position i with the last element of node
+    std::cout << "the node that we are removing is: player 1 = " << nodes_[i].second.first << " player 2: " << nodes_[i].second.second << std::endl; 
     std::swap(nodes_[i], nodes_[s]);
     //reduce the size of the queue
     size_--;
